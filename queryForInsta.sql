@@ -7,3 +7,10 @@ use insta;
 -- 한글 설정 보기
 show variables like 'c%';
 
+drop table follow;
+drop table image;
+drop table tag;
+drop table user;
+drop table user_images;
+commit;
+
