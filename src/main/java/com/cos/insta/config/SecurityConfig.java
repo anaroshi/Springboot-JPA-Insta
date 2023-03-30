@@ -55,7 +55,7 @@ public class SecurityConfig {
 			.formLogin()
 			.loginPage("/auth/login") // 이동하는 로그인 화면은 단일로 지정하기 /auth/loginForm 과 같이 auth가 더 있으면 인식하지 못함.
 			.loginProcessingUrl("/auth/loginProc") // 스프링 시큐리티가 해당 주소로 요청오는 로그인을 가로채서 대신 로그인 해준다.
-			.defaultSuccessUrl("/"); // 로그인이 정상으로 끝나면 가는 위치
+			.defaultSuccessUrl("/image/feed"); // 로그인이 정상으로 끝나면 가는 위치
 //			.failureUrl("/fail"); // 로그인 실패시 가는 위치
 	
 		return http.build();
