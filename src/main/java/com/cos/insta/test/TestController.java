@@ -85,5 +85,48 @@ public class TestController {
 		follows.add(follow3);
 		
 		return follows;
+	}	
+	
+	// http://localhost:8060/test/login
+	@GetMapping("/test/login")
+	public String testLogin() {
+		return "auth/login";
 	}
+	
+	// http://localhost:8060/test/login
+	@GetMapping("/test/join")
+	public String testJoin() {
+		return "auth/join";
+	}
+	
+	// http://localhost:8060/test/profile
+	@GetMapping("/test/profile")
+	public String testProfile() {
+		return "user/profile";
+	}
+	
+	// http://localhost:8060/test/profileEdit
+	@GetMapping("/test/profileEdit")
+	public String testProfileEdit() {
+		return "user/profile_edit";
+	}
+	
+	// http://localhost:8060/test/feed
+	@GetMapping("/test/feed")
+	public String testFeed() {
+		return "image/feed";
+	}
+	
+	// http://localhost:8060/test/imageUpload
+	@GetMapping("/test/imageUpload")
+	public String testImageUpload() {
+		return "image/image_upload";
+	}
+	
+	// http://localhost:8060/test/explore
+	@GetMapping("/test/explore")
+	public String testExplore() {
+		return "image/explore";
+	}
+
 }

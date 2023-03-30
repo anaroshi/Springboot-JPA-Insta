@@ -66,6 +66,7 @@ public class User {
 	// (2) findByUserInfo() 제외
 	@OneToMany(mappedBy = "user")
 	@JsonIgnoreProperties({"user", "tags", "likes"})
+	@Builder.Default // @Builder 는 초기화 표현을 완전히 무시하므로 초기화 해준다.
 	private List<Image> images = new ArrayList<>();	
 	
 	@CreationTimestamp			// 자동으로 현재시간 세팅

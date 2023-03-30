@@ -47,13 +47,15 @@ public class Image {
 	@JsonIgnoreProperties({"password", "images"})
 	private User user;// DB는 오브젝트를 저장할 수 없다. FK, 자바는 오브젝트를 저장할 수 있다.
 	
-	// Like List	
+	// Like List
 	@OneToMany(mappedBy = "image")
+	@Builder.Default // @Builder 는 초기화 표현을 완전히 무시하므로 초기화 해준다.
 	private List<Likes> likes = new ArrayList<>();
 	
 	// Tag List
 	@OneToMany(mappedBy = "image")
 	@JsonManagedReference
+	@Builder.Default // @Builder 는 초기화 표현을 완전히 무시하므로 초기화 해준다.
 	private List<Tag> tags = new ArrayList<>();
 	
 	@Transient 	// DB에 영향을 미치지 않는다.
