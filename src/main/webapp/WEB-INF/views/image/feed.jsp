@@ -82,7 +82,6 @@
   </main>
 
   <%@ include file="../include/footer.jsp" %>
-  <%@ include file="../include/modal.jsp" %>
   
 </body>
 </html>

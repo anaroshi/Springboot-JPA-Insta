@@ -16,3 +16,5 @@
       </a>
     </div>
   </nav>
+  
+  <%@ include file="modal.jsp" %>
