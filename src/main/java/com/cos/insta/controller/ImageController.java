@@ -12,6 +12,7 @@ import lombok.extern.log4j.Log4j2;
 @Controller
 public class ImageController {
 
+	// http://localhost:8060/image/feed
 	@GetMapping({"/", "/image/feed"})
 	public String ImageFeed(@AuthenticationPrincipal MyUserDetail userDetail) {
 		log.info(".......... ImageController --- ImageFeed username : "+userDetail.getUsername());		

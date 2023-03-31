@@ -3,7 +3,6 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,21 +40,15 @@
 			  </c:choose>	
 		  </div>
 		  
-          <a href="edit-profile">
+          <a href="/user/edit/${user.id }">
             <button class="profile_edit_btn">Edit Profile</button>
           </a>
           <i class="fa fa-cog fa-lg"></i>
         </div>
         <ul class="profile__stats">
-          <li class="profile__stat">
-            <span class="profile__stat-number">313</span> posts
-          </li>
-          <li class="profile__stat">
-            <span class="profile__stat-number">4,444</span> followers
-          </li>
-          <li class="profile__stat">
-            <span class="profile__stat-number">44</span> following
-          </li>
+          <li class="profile__stat"><span class="profile__stat-number">313</span> 게시물</li>
+          <li class="profile__stat"><span class="profile__stat-number">4,444</span><a href="/follow/follower/${user.id }"> 팔로워</a></li>
+          <li class="profile__stat"><span class="profile__stat-number">44</span><a href="/follow/follow/${user.id }"> 팔로우</a></li>
         </ul>
         <p class="profile__bio">
           <span class="profile__fullname">${user.name }</span> ${user.bio } <a href="${user.website }" class="profile__link">${user.website }</a>

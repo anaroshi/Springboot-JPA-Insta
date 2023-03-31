@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,6 +30,7 @@ public class FollowController {
 	private UserRepository userRepository;
 	
 	// Follow 처리
+	// http://localhost:8060/follow/3
 	@PostMapping("/follow/{id}")
 	public @ResponseBody String follow(@AuthenticationPrincipal MyUserDetail userDetail, @PathVariable int id) {
 		log.info(".... FollowController -- follow id : "+id+", userDetail : "+userDetail); 
@@ -51,7 +53,8 @@ public class FollowController {
 		return "OK";		
 	}
 
-	// unFollow 처리	
+	// unFollow 처리
+	// http://localhost:8060/follow/3
 	@DeleteMapping("/follow/{id}")
 	public @ResponseBody String unFollow(@AuthenticationPrincipal MyUserDetail userDetail, @PathVariable int id) {
 		log.info(".... FollowController -- unFollow id : "+id+", userDetail : "+userDetail); 
@@ -70,4 +73,19 @@ public class FollowController {
 		return "OK";
 	}
 	
+	@GetMapping("/follow/follower/{id}")
+	public String followFollower(@PathVariable int id) {
+		
+		// 팔로워 리스트
+		
+		return "follow/follow";
+	}
+	
+	@GetMapping("/follow/follow/{id}")
+	public String followFollow(@PathVariable int id) {
+		
+		// 팔로우 리스트
+		
+		return "follow/follow";
+	}	
 }

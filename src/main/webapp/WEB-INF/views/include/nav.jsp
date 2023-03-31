@@ -8,7 +8,7 @@
       <a href="explore" class="navigation__link">
           <i class="fa fa-compass"></i>
       </a>
-      <a href="#" class="navigation__link follow_popup">
+      <a href="#" class="navigation__link like_popup">
           <i class="fa fa-heart-o"></i>
       </a>
       <a href="profile" class="navigation__link">

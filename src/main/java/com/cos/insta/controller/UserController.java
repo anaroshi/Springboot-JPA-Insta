@@ -47,6 +47,7 @@ public class UserController {
 	}
 	
 	// 회원 가입 처리
+	// http://localhost:8060/auth/JoinProc
 	@PostMapping("/auth/JoinProc")
 	public String authJoinProc(User user) {
 		log.info(".......... UserController --- JoinProc user : "+ user);
@@ -59,6 +60,7 @@ public class UserController {
 	}
 
 	// profile 화면
+	// http://localhost:8060/user/3
 	@GetMapping("/user/{id}")
 	public String profile(@AuthenticationPrincipal MyUserDetail userDetail, @PathVariable int id, Model model) {		
 
@@ -78,7 +80,7 @@ public class UserController {
 		
 		// 5. followCheck 유무
 		User principal = userDetail.getUser();
-		log.info(".......... UserController --- profile fromUserId : "+ principal.getId()+", toUserId : "+user.getId());
+		log.info(".......... UserController --- profile fromUserId : /user/edit/${user.id }"+ principal.getId()+", toUserId : "+user.getId());
 		
 		int followCheck = followRepository.countByFromUserIdAndToUserId(principal.getId(), id);
 		log.info("--------------------- followCheck : "+followCheck);
@@ -86,5 +88,15 @@ public class UserController {
 		model.addAttribute("followCheck", followCheck);
 		
 		return "user/profile";
+	}
+	
+	// http://localhost:8060/user/edit/3
+	@GetMapping("/user/edit/{id}")
+	public String profile(@PathVariable int id, Model model) {
+		
+		User user = userRepository.findById(id).get();
+		model.addAttribute("user", user);
+		
+		return "user/profile_edit";
 	}
 }
