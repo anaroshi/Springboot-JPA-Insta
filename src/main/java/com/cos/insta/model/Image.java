@@ -29,7 +29,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Table(name = "image")
-@Entity
+@Entity(name = "image")
 public class Image {
 
 	@Id

@@ -28,7 +28,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Table(name = "user")
-@Entity // JPA -> ORM
+@Entity(name = "user") // JPA -> ORM
 public class User {
 
 	@ Id		// Primary key
