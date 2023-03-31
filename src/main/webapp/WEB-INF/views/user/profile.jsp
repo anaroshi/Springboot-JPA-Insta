@@ -30,6 +30,7 @@
           <h1>${user.username }</h1>
           
           <div id="follow_check">
+			<c:if test="${principalId ne user.id}">
 	          <c:choose>
 				<c:when test="${followCheck eq 1}">
 		            <button onclick="follow(false, ${user.id })" class="profile_edit_btn">팔로잉</button>
@@ -37,7 +38,8 @@
 		        <c:otherwise>
 		            <button onclick="follow(true, ${user.id })" class="profile_followe_btn">팔로우</button>
 	          	</c:otherwise>
-			  </c:choose>	
+			  </c:choose>
+			</c:if>
 		  </div>
 		  
           <a href="/user/edit/${user.id }">
