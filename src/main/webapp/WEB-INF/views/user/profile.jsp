@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -27,9 +28,21 @@
       </div>
       <div class="profile__info">
         <div class="profile__title">
-          <h1>serranoarevalo</h1>
-          <a href="edit-profile.html">
-            <button>Edit Profile</button>
+          <h1>${user.username }</h1>
+          
+          <div id="follow_check">
+	          <c:choose>
+				<c:when test="${followCheck eq 1}">
+		            <button onclick="follow(false, ${user.id })" class="profile_edit_btn">팔로잉</button>
+		        </c:when>
+		        <c:otherwise>
+		            <button onclick="follow(true, ${user.id })" class="profile_followe_btn">팔로우</button>
+	          	</c:otherwise>
+			  </c:choose>	
+		  </div>
+		  
+          <a href="edit-profile">
+            <button class="profile_edit_btn">Edit Profile</button>
           </a>
           <i class="fa fa-cog fa-lg"></i>
         </div>
@@ -45,12 +58,7 @@
           </li>
         </ul>
         <p class="profile__bio">
-          <span class="profile__fullname">Nicolás Serrano Arévalo</span>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-          Voluptas repellendus cumque quo voluptatum voluptatem,
-          maxime nobis. Quae incidunt cum expedita facilis libero officiis,
-          delectus inventore tempore, ex nulla dolore cumque.
-          <a href="http://serranoarevalo.com" class="profile__link">serranoarevalo.com</a>
+          <span class="profile__fullname">${user.name }</span> ${user.bio } <a href="${user.website }" class="profile__link">${user.website }</a>
         </p>
       </div>
     </header>
@@ -181,8 +189,6 @@
     </div>
   </main>
 
-  <%@ include file="../include/footer.jsp" %>
-
   <div class="profile__overlay">
     <i class="fa fa-times"></i>
     <div class="profile__overlay-container">
@@ -193,7 +199,10 @@
       <a href="#" class="profile__overlay-link" id="cancel">Cancel</a>
     </div>
   </div>
-
+    
+  <%@ include file="../include/footer.jsp" %>
+  <script type="text/javascript" src="/js/follow.js" />
+  
   <script>
       $(function() {
         //이미지 클릭시 업로드창 실행

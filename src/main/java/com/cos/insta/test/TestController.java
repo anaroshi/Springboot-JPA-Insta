@@ -2,9 +2,12 @@ package com.cos.insta.test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cos.insta.model.Follow;
@@ -12,9 +15,13 @@ import com.cos.insta.model.Image;
 import com.cos.insta.model.Likes;
 import com.cos.insta.model.Tag;
 import com.cos.insta.model.User;
+import com.cos.insta.repository.UserRepository;
 
 @Controller
 public class TestController {
+	
+	@Autowired
+	private UserRepository userRepository;
 	
 	// http://localhost:8060/test/home
 	@GetMapping("/test/home")
@@ -127,6 +134,13 @@ public class TestController {
 	@GetMapping("/test/explore")
 	public String testExplore() {
 		return "image/explore";
+	}
+	
+	@GetMapping("/test/user/{id}")
+	public @ResponseBody User testUser(@PathVariable int id) {
+		Optional<User> oUser = userRepository.findById(id);
+		User user = oUser.get();
+		return user;
 	}
 
 }

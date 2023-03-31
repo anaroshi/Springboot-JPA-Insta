@@ -1,14 +1,18 @@
 package com.cos.insta.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+
+import com.cos.insta.service.MyUserDetailsService;
 
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @Configuration // 빈등록 (IoC관리)
@@ -16,8 +20,8 @@ import org.springframework.security.web.SecurityFilterChain;
 //Controller에서 특정 권한이 있는 유저만 접근을 허용하려면 @PreAuthorize 어노테이션을 사용하는데, 해당 어노테이션을 활성화 시키는 어노테이션이다.
 public class SecurityConfig {
 
-//	@Autowired
-//	private UserDetailsService userDetailsService;
+	@Autowired
+	private MyUserDetailsService userDetailsService;
 	
 	@Bean
 	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
@@ -33,11 +37,10 @@ public class SecurityConfig {
 	// 시큐리티가 대신 로그인해주는데 password를 가로채기를 하는데
 	// 해당 password가 뭘로 해쉬가 되어 회원가입이 되었는지 알야야
 	// 같은 해쉬로 암호화해서 DB에 있는 해쉬랑 비교할 수 있음.	
-	//	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-	//		System.out.println(".... SecurityConfig - configure auth  : "+auth);
-	//		auth.userDetailsService(userDetailsService).passwordEncoder(encodePWD());
-	//	}
-	// => 버젼업 되면서 빈인 경우 Spring Security에서 자동으로 선택함. 이는, 기본적으로 지원하므로 사용자 정의 JWT 지원을 작성할 필요가 없다.
+		protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+			System.out.println(".... SecurityConfig - configure auth  : "+auth);
+			auth.userDetailsService(userDetailsService).passwordEncoder(encodePWD());
+		}
 	
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
