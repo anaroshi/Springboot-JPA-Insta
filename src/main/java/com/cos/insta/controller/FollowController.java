@@ -1,10 +1,12 @@
 package com.cos.insta.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -70,22 +72,50 @@ public class FollowController {
 		int result = followRepository.deleteByFromUserIdAndToUserId(fromUser.getId(), toUser.getId());
 		log.info("result : "+result);
 		
-		return "OK";
+		return "OK"; // ResponseEntity로 수정
 	}
 	
 	@GetMapping("/follow/follower/{id}")
-	public String followFollower(@PathVariable int id) {
+	public String followFollower(@PathVariable int id, @AuthenticationPrincipal MyUserDetail userDetail, Model model) {
 		
 		// 팔로워 리스트
+		List<Follow> followers = followRepository.findByToUserId(id);
 		
-		return "follow/follow";
+		// 팔로우리스트(sundor:1)2,3
+		List<Follow>principalFollows = followRepository.findByFromUserId(userDetail.getUser().getId());
+		
+		for(Follow f1 : followers) {
+			for(Follow f2 : principalFollows) {
+				if(f1.getFromUser().getId() == f2.getToUser().getId()) {
+					f1.setFollowState(true);
+				}
+			}
+		}		
+				
+		model.addAttribute("followers", followers);
+		
+		return "follow/follower";
 	}
 	
 	@GetMapping("/follow/follow/{id}")
-	public String followFollow(@PathVariable int id) {
+	public String followFollow(@PathVariable int id, @AuthenticationPrincipal MyUserDetail userDetail,  Model model) {
 		
-		// 팔로우 리스트
+		// 팔로우 리스트(anaroshi:3)1,2
+		List<Follow> follows = followRepository.findByFromUserId(id);
+		
+		// 팔로우리스트(sundor:1)2,3
+		List<Follow>principalFollows = followRepository.findByFromUserId(userDetail.getUser().getId());
+		
+		for(Follow f1 : follows) {
+			for(Follow f2 : principalFollows) {
+				if(f1.getToUser().getId() == f2.getToUser().getId()) {
+					f1.setFollowState(true);
+				}
+			}
+		}		
+		
+		model.addAttribute("follows", follows);
 		
 		return "follow/follow";
-	}	
+	}
 }

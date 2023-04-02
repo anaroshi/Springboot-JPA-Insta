@@ -34,7 +34,8 @@ public class Follow {
 	
 	// 중간 테이블 생성됨. 
 	// fromUser가 toUser를 following 함.
-	// toUserr를 fromUse가 following 함.	
+	// toUserr를 fromUse가 following 함.
+
 	@ManyToOne
 	@JoinColumn(name = "fromUserId")
 	@JsonIgnoreProperties({"images"})
@@ -46,7 +47,7 @@ public class Follow {
 	private User toUser; 
 	
 	@Transient
-	private boolean matpal;
+	private boolean followState;
 	
 	@CreationTimestamp
 	private Timestamp createDate;

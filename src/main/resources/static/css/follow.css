@@ -1,0 +1,110 @@
+#follow {
+  display: flex;
+  justify-content: center;
+}
+
+.follow__users {
+}
+
+.follow__users .follow__user {
+  padding: 10px 15px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(0, 0, 0, .0975);
+}
+
+.follow__users .follow__user:last-child {
+  border: 0;
+}
+
+.follow__user .follow__content {
+  display: flex;
+  align-items: center;
+}
+
+.follow__user .follow__content img {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  margin-right: 15px;
+  transform-style: preserve-3d;
+  animation: 6s potato infinite ease-in-out;
+}
+
+@keyframes horse {
+  to {
+    transform: none;
+  }
+  from {
+    transform: rotateY(360deg);
+  }
+}
+
+@keyframes potato {
+  0% {
+    transform: none;
+  }
+  50% {
+    transform: rotateY(180deg);
+  }
+  100% {
+    transform: none;
+  }
+}
+
+.follow__info .follow__username {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 7px;
+}
+
+.follow_btn {
+  border: 1px solid #3897f0;
+  border-radius: 3px;
+  color: white;
+  font-weight: 600;
+  background: #3897f0;
+  padding: 5px 10px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all .5s ease-in-out;
+}
+
+.following_btn {
+  border: 1px solid #3897f0;
+  border-radius: 3px;
+  color: black;
+  font-weight: 600;
+  background: white;
+  padding: 5px 10px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all .5s ease-in-out;
+}
+
+.follow_btn:hover {
+  background: white;
+  color: black;
+}
+.following_btn:hover {
+  background: #3897f0;
+  color: white;
+}
+
+.follow_btn:focus {
+  outline: none;
+}
+
+.following_btn:focus {
+  outline: none;
+}
+
+.follow_btn:active {
+  opacity: 0.5;
+}
+
+.following_btn:active {
+  opacity: 0.5;
+}

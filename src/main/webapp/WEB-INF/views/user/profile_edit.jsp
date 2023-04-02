@@ -23,33 +23,33 @@
           <img src="/images/avatar.jpg" />
         </div>
         <!-- master comments -->
-        <h1 class="edit-profile__username">serranoarevalo</h1>
+        <h1 class="edit-profile__username">${user.username }</h1>
       </header>
 
       <form class="edit-profile__form">
         <div class="edit-profile__row">
           <label class="edit-profile__label" for="name">Name</label>
-          <input id="name" type="text" value="Nicolás Serrano Arévalo">
+          <input id="name" type="text" value="${user.name }">
         </div>
         <div class="edit-profile__row">
           <label class="edit-profile__label" for="username">Username</label>
-          <input id="username" type="text">
+          <input id="username" type="text" value="${user.username }">
         </div>
         <div class="edit-profile__row">
           <label class="edit-profile__label" for="website">Website</label>
-          <input id="website" type="url">
+          <input id="website" type="url" value="${user.website }">
         </div>
         <div class="edit-profile__row">
           <label class="edit-profile__label" for="bio">Bio</label>
-          <textarea id="bio"></textarea>
+          <textarea id="bio">${user.bio }</textarea>
         </div>
         <div class="edit-profile__row">
           <label class="edit-profile__label" for="email">Email</label>
-          <input id="email" type="email">
+          <input id="email" type="email" value="${user.email }">
         </div>
         <div class="edit-profile__row">
           <label class="edit-profile__label" for="phone-number">Phone Number</label>
-          <input id="phone-number" type="text">
+          <input id="phone-number" type="text" value="${user.phone }">
         </div>
         <div class="edit-profile__row">
           <label class="edit-profile__label" for="gender">Gender</label>
