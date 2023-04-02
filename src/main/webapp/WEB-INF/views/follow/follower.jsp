@@ -19,7 +19,7 @@
  <main id="follow">
     <ul class="follow__users u-default-box">
     
-	<c:forEach items="${followers }" var="follower">    
+	<c:forEach items="${followers }" var="follower" varStatus="status">    
       <li class="follow__user">
         <div class="follow__content">
           <img src="/images/avatar.jpg" />
@@ -28,19 +28,19 @@
           </div>
         </div>
         
-        <div id="follow_check">
+        <div id="follow_item_${status.count}">
         	<c:if test="${principal.user.id ne follower.fromUser.id }">
 		        <c:choose>
 		        	<c:when test="${follower.followState eq true }">
-		        		<button onclick="follow(false, ${follower.fromUser.id})" class="following_btn">팔로잉</button>
+		        		<button id="follower_btn_${status.count }" onclick="follow(false, ${follower.fromUser.id}, ${status.count})" class="following_btn">팔로잉</button>
 		        	</c:when>
 		        	<c:otherwise>
-		        		<button  onclick="follow(true, ${follower.fromUser.id})" class="follow_btn">팔로우</button>
+		        		<button id="follower_btn_${status.count }"  onclick="follow(true, ${follower.fromUser.id}, ${status.count})" class="follow_btn">팔로우</button>
 		        	</c:otherwise>
 		        </c:choose>
 			</c:if>        
         </div>
-        
+
       </li>
       </c:forEach>
 
@@ -48,39 +48,7 @@
   </main>
 
   <%@ include file="../include/footer.jsp" %>
-<!--    <script type="text/javascript" src="/js/follow.js" /> -->
-   <script type="text/javascript">
-   function follow(check, userId) {
-		alert("follow");
-		let url = "/follow/"+userId;
-
-		if (check) {
-			fetch(url, {
-				method : "POST"			  
-			}).then(function(res) {
-				return res.text();
-			}).then(function(res) {			  
-				if(res==="OK") {	  
-					let follow_check_el = document.querySelector("#follow_check");				  
-					follow_check_el.innerHTML = "<button onclick='follow(false,"+userId+")' class='profile_edit_btn'>팔로잉</button>";
-				}
-			});
-		} else {
-			fetch(url, {
-				method : "DELETE"			  
-			}).then(function(res) {
-				return res.text();
-			}).then(function(res) {
-				if(res==="OK") {
-					let follow_check_el = document.querySelector("#follow_check");
-					follow_check_el.innerHTML = "<button onclick='follow(true,"+userId+")' class='profile_followe_btn'>팔로우</button>";
-				}
-			});
-		}
-	}
-   
-   
-   </script>
-   
+   <script src="/js/follow.js"></script>
+ 
 </body>
 </html>

@@ -3,7 +3,8 @@
  * true -> follow 하기
  * false -> unfollow 하기
  */
-function follow(check, userId) {
+function follow(check, userId, index) {
+//	alert("check : "+check+", userId : "+userId+", index : "+index);
 	let url = "/follow/"+userId;
 
 	if (check) {
@@ -13,8 +14,8 @@ function follow(check, userId) {
 			return res.text();
 		}).then(function(res) {			  
 			if(res==="OK") {	  
-				let follow_check_el = document.querySelector("#follow_check");				  
-				follow_check_el.innerHTML = "<button onclick='follow(false,"+userId+")' class='profile_edit_btn'>팔로잉</button>";
+				let follow_item_el = document.querySelector("#follow_item_"+index);				  
+				follow_item_el.innerHTML = `<button onclick="follow(false, ${userId}, ${index})" class="following_btn">팔로잉</button>`;
 			}
 		});
 	} else {
@@ -24,8 +25,8 @@ function follow(check, userId) {
 			return res.text();
 		}).then(function(res) {
 			if(res==="OK") {
-				let follow_check_el = document.querySelector("#follow_check");
-				follow_check_el.innerHTML = "<button onclick='follow(true,"+userId+")' class='profile_followe_btn'>팔로우</button>";
+				let follow_item_el = document.querySelector("#follow_item_"+index);
+				follow_item_el.innerHTML = `<button onclick="follow(false, ${userId}, ${index})" class="follow_btn">팔로우</button>`;
 			}
 		});
 	}

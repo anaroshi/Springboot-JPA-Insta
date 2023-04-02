@@ -6,7 +6,7 @@
 </sec:authorize>
 
 <nav class="navigation">
-  <a href="feed">
+  <a href="/image/feed">
     <img src="/images/logo.png" />
   </a>
   <input type="text" placeholder="Search">
