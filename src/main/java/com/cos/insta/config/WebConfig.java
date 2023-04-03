@@ -7,6 +7,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.resource.PathResourceResolver;
 
+// 이미지 보기 설정
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 	
@@ -17,14 +18,19 @@ public class WebConfig implements WebMvcConfigurer {
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		WebMvcConfigurer.super.addResourceHandlers(registry);
 		
-		registry.addResourceHandler("/upload/**").addResourceLocations("file:///"+fileRealPath).setCachePeriod(3600)
-			.resourceChain(true).addResolver(new PathResourceResolver());
+		registry
+			.addResourceHandler("/upload/**")
+			.addResourceLocations("file:///"+fileRealPath)
+			.setCachePeriod(3600)
+			.resourceChain(true)
+			.addResolver(new PathResourceResolver());
 	}
 
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
 		WebMvcConfigurer.super.addCorsMappings(registry);
-		registry.addMapping("/**")
+		registry
+			.addMapping("/**")
 			.allowedOriginPatterns("*")
 			.allowedMethods("GET", "POST", "OPTIONS", "PUT")
 			.allowedHeaders("Content-type", "X-Requested-With", "accept", "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers")

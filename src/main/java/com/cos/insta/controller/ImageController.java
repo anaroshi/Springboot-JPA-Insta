@@ -1,11 +1,15 @@
 package com.cos.insta.controller;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.channels.AsynchronousFileChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.Future;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -76,7 +80,7 @@ public class ImageController {
 			@RequestParam("caption") String caption,
 			@RequestParam("location") String location,
 			@RequestParam("tags") String tags			
-	) {
+	) throws IOException {
 //		log.info("userDetail : "+userDetail);
 //		log.info("file :  "+file+", caption : "+caption+", location : "+location+", tags : "+tags);
 		
@@ -87,11 +91,25 @@ public class ImageController {
 		Path filePath = Paths.get(fileRealPath+uuidFileName);
 		// log.info("2......filePath : "+filePath);
 		
-		try {
-			Files.write(filePath, file.getBytes()); // 하드 디스크에 기록(filePath에 이미지 저장)
-		} catch (IOException e) {
-			e.printStackTrace();
+		if (!Files.exists(filePath)) {
+			Files.createFile(filePath);
 		}
+
+		
+		// 이미지 동기처리 하기(용량이 큰 이미지 일경우)  --- 시작
+//		Files.write(filePath, file.getBytes()); // 하드 디스크에 기록(filePath에 이미지 저장)
+	
+		AsynchronousFileChannel fileChannel = AsynchronousFileChannel.open(filePath, StandardOpenOption.WRITE);
+		
+		ByteBuffer buffer = ByteBuffer.allocate((int) file.getSize());
+		buffer.put(file.getBytes());
+		buffer.flip();
+		
+		Future<Integer> operation = fileChannel.write(buffer, 0);
+		buffer.clear();
+		
+		while(!operation.isDone());
+		// 이미지 동기처리 하기(용량이 큰 이미지 일경우)  --- 끝		
 		
 		User principal = userDetail.getUser();
 		

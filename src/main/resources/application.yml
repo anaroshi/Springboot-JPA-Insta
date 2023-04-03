@@ -48,6 +48,11 @@ spring:
       name: test
       password: 1234
 
+# 외부로 이미지 저장 위치 옮김
+# 외부 폴더 classpath 잡기(사진 업로드시 파일 I/O하는 시간보다 해당 페이지로 넘어오는 시간이 더 빠르기 때문에 이미지가 액박으로 표시된다.)
 file:
-  path: /home/sundor/workspace/spring4/insta/src/main/resources/upload/
+  path: /home/sundor/workspace/spring4/main/resources/upload/
+  
+#file:
+#  path: /home/sundor/workspace/spring4/insta/src/main/resources/upload/  
  

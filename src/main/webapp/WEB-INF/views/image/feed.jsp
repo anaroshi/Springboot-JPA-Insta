@@ -22,10 +22,14 @@
     <div class="photo u-default-box">
       <header class="photo__header">
         <img src="/images/avatar.jpg" />
-        <span class="photo__username">${image.user.username }</span>
-        <span class="photo__username">${image.location }</span>
+        <div class="photo_user_info">
+	        <span class="photo__username">${image.user.username }</span>
+	        <span class="photo__location">${image.location }</span>
+        </div>
       </header>
-      <img src="/upload/${image.postImage}" />
+      <div class="photo_post_image">
+	      <img src="/upload/${image.postImage}" />
+      </div>
       <div class="photo__info">
           <div class="photo__actions">
             <span class="photo__action">
@@ -36,12 +40,17 @@
             </span>
           </div>
           <span class="photo__likes">${image.likeCount} likes</span>
-          <p>${image.caption}</p>
-          <p>
-          	<c:forEach items="${image.tags}" var="tag">
-          		#${tag.name}
-          	</c:forEach>
-          </p>
+          <div class="photo_caption">
+          	<span class="photo__username">
+          		${image.user.username }
+          	</span>
+	          ${image.caption}
+          </div>
+          <div class="photo_tag">
+			<c:forEach items="${image.tags}" var="tag">
+	        	#${tag.name}
+	        </c:forEach>
+	      </div>    
           <ul class="photo__comments">
             <li class="photo__comment">
               <span class="photo__comment-author">serranoarevalo</span> i love this!
