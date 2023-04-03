@@ -63,7 +63,9 @@ public class TestController {
 	
 	@GetMapping("/test/tag")
 	public @ResponseBody Tag tag() {
-		Tag tag = Tag.builder().id(1).name("홍길동").build();
+		Tag tag = new Tag();
+		tag.setId(1);
+		tag.setName("홍길동");
 		return tag;
 	}
 	

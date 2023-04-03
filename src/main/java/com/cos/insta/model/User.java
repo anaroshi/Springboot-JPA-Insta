@@ -1,5 +1,6 @@
 package com.cos.insta.model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Table(name = "user")
 @Entity(name = "user") // JPA -> ORM
-public class User {
+public class User implements Serializable {
 
 	@ Id		// Primary key
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // 프로젝트에서 연결된 DB의 넘버링 전량을 따라간다.

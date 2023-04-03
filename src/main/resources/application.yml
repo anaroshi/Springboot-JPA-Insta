@@ -49,5 +49,5 @@ spring:
       password: 1234
 
 file:
-  path: src/main/resources/upload
+  path: /home/sundor/workspace/spring4/insta/src/main/resources/upload/
  
