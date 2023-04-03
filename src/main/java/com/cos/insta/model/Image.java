@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -56,7 +57,7 @@ public class Image {
 	private List<Likes> likes = new ArrayList<>();
 	
 	// Tag List
-	@OneToMany(mappedBy = "image")
+	@OneToMany(mappedBy = "image", fetch = FetchType.EAGER)
 	@JsonManagedReference
 	@Builder.Default // @Builder 는 초기화 표현을 완전히 무시하므로 초기화 해준다.
 	private List<Tag> tags = new ArrayList<>();

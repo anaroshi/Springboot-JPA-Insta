@@ -9,8 +9,13 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,8 +47,18 @@ public class ImageController {
 
 	// http://localhost:8060/image/feed
 	@GetMapping({"/", "/image/feed"})
-	public String ImageFeed(@AuthenticationPrincipal MyUserDetail userDetail) {
-		log.info(".......... ImageController --- ImageFeed username : "+userDetail.getUsername());		
+	public String ImageFeed(
+			@AuthenticationPrincipal MyUserDetail userDetail, 
+			@PageableDefault(size = 3, sort = "id", direction = Direction.DESC) Pageable pageable,
+			Model model
+	) {
+		log.info(".......... ImageController --- ImageFeed userDetail : "+userDetail);
+		
+		// 1. 내가 follow한 친구들의 사진
+		Page<Image> pageImages = imageRepository.findImage(userDetail.getUser().getId(), pageable);
+		List<Image> images = pageImages.getContent();
+		model.addAttribute("images", images);
+		
 		return "image/feed";
 	}
 	
@@ -106,5 +121,5 @@ public class ImageController {
 		
 		return "redirect:/";
 	}
-	
+
 }
