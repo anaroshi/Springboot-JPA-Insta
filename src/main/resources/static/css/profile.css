@@ -8,37 +8,75 @@
 
 .profile__stat a {
 	text-decoration: none;
-	color: black;
+	color: #0092CF;
 }
 
 #profile .profile__header {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 30% 70%;
+  justify-content: center;
   margin-bottom: 50px;
-}
-
-.profile__header .profile__info {
-  width: 70%;
 }
 
 .profile__header .avatar__container {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 30%;
 }
 
 .avatar__container img {
+  width : 150px;
+  height : 150px;
   border-radius: 50%;
   animation: 6s potato infinite ease-in-out;
 }
 
+.profile__photo-grid {
+	display : grid;
+	grid-template-columns : auto auto auto;
+	justify-content : center;
+	grid-gap : 10px;
+}
+
 .profile__info .profile__title,
 .profile__info .profile__stats {
-  display: flex;
+  display: grid;
+  grid-template-columns : auto auto auto auto;
+  justify-content : start;
   align-items: center;
   margin-bottom: 30px;
 }
+
+.profile__stats {
+  display: grid;
+  grid-template-columns : auto auto;
+  grid-gap : 5px;
+  text-align : center;
+}
+
+@media (max-width : 700px) {
+	#profile .profile__header {
+		grid-templage-columns : auto;
+	}
+	
+	.profile__photo-grid {
+		grid-template-columns : auto;
+	}
+	
+	.avatar__container {
+	  margin-top: 20px;
+	  text-align : center;
+	}
+	
+	.profile__info {
+	  margin-top: 20px;
+	}
+	
+	.profile__stats {
+	  grid-template-columns : auto;
+	}	
+}
+
 
 .profile__title h1 {
   font-size: 30px;
@@ -106,8 +144,9 @@
   color: #385185;
 }
 
-.profile__photo-row .profile__photo {
-  width: 32%;
+.profile__bio {
+  margin-top: 5px;	
+  margin-bottom: 5px;
 }
 
 .profile__photo a img {
@@ -143,12 +182,6 @@
 
 .profile__photo:hover .profile__photo-overlay {
   opacity: 1;
-}
-
-.profile__photo-row {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
 }
 
 .profile__photo-stat i.fa-heart {

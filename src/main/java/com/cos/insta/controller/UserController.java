@@ -1,8 +1,14 @@
 package com.cos.insta.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -10,6 +16,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.cos.insta.model.User;
 import com.cos.insta.repository.FollowRepository;
@@ -21,6 +29,9 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @Controller
 public class UserController {
+	
+	@Value("${file.path}")
+	private String fileRealPath;
 
 	@Autowired
 	private BCryptPasswordEncoder encoder;
@@ -99,4 +110,24 @@ public class UserController {
 		
 		return "user/profile_edit";
 	}
+	
+	@PostMapping("/user/profileUpload")
+	public String userProfileUpload (
+		@RequestParam("profileImage") MultipartFile file,
+		@AuthenticationPrincipal MyUserDetail userDetail
+	) throws IOException {
+		User principal = userDetail.getUser();
+		
+		UUID uuid = UUID.randomUUID();
+		String uuidFilename = uuid + "_" + file.getOriginalFilename();
+		Path filePath = Paths.get(fileRealPath + uuidFilename);
+		Files.write(filePath, file.getBytes());
+		
+		principal.setProfileImage(uuidFilename);
+		
+		userRepository.save(principal);
+		
+		return "redirect:/user/"+principal.getId();
+	}
+	
 }

@@ -21,7 +21,7 @@
   <c:forEach items="${images}" var="image">
     <div class="photo u-default-box">
       <header class="photo__header">
-        <img src="/images/avatar.jpg" />
+        <img src="/upload/${image.user.profileImage}"  onerror="this.onerror=null; this.src='/images/avatar.jpg'" />
         <div class="photo_user_info">
 	        <span class="photo__username">${image.user.username }</span>
 	        <span class="photo__location">${image.location }</span>
@@ -70,6 +70,7 @@
   </main>
 
   <%@ include file="../include/footer.jsp" %>
-  
+  <script src="/js/feed.js"></script>
+      
 </body>
 </html>
