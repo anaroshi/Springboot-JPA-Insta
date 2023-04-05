@@ -55,4 +55,8 @@ file:
   
 #file:
 #  path: /home/sundor/workspace/spring4/insta/src/main/resources/upload/  
+
+# OAuth 카카오로 통해서 들어오는 user 비밀번호 지정
+cos:
+  key: cos1234
  

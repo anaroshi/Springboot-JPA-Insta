@@ -10,6 +10,15 @@
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="/css/styles.css">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
+  
+  <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+  
 </head>
 <body>
 
@@ -41,7 +50,7 @@
         </div>
         <div class="edit-profile__row">
           <label class="edit-profile__label" for="bio">Bio</label>
-          <textarea id="bio" name="bio">${user.bio }</textarea>
+          <textarea id="bio" name="bio" class="form-control summernote">${user.bio }</textarea>
         </div>
         <div class="edit-profile__row">
           <label class="edit-profile__label" for="email">Email</label>
@@ -64,7 +73,15 @@
     </div>
   </main>
 
-  <%@ include file="../include/footer.jsp" %>
+  <%@ include file="../include/footer_profile_edit.jsp" %>
   
+  <script>
+	$('.summernote').summernote({
+ 	  	toolbar: false,
+	  	tabsize: 2,
+	  	height: 100
+	});
+</script>
+
 </body>
 </html>

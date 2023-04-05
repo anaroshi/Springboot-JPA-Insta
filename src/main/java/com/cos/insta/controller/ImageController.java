@@ -199,12 +199,20 @@ public class ImageController {
 		return "redirect:/";
 	}
 	
-	@GetMapping("image/explore/{id}")
-	public String explore(@PathVariable int id) {
+	@GetMapping("image/explore")
+	public String imageExplore(Model model, @PageableDefault(size = 9, sort = "id", direction = Direction.DESC) Pageable pageable) {
 		log.info("...............explore");
-//		User user = userRepository.findById(id).get();
-//		model.addAttribute("user", user);
-		return "/image/explore";
+		
+		Page<Image> pageImages = imageRepository.findAll(pageable);
+		List<Image> images = pageImages.getContent();
+		
+		for(Image image:images) {
+			int likeCount = likesRepository.countByImageId(image.getId());
+			image.setLikeCount(likeCount);
+		}		
+		
+		model.addAttribute("images", images);
+		return "image/explore";
 	}
 
 }
