@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.cos.insta.model.Image;
 import com.cos.insta.model.User;
 import com.cos.insta.repository.FollowRepository;
+import com.cos.insta.repository.LikesRepository;
 import com.cos.insta.repository.UserRepository;
 import com.cos.insta.service.MyUserDetail;
 
@@ -41,6 +43,9 @@ public class UserController {
 	
 	@Autowired
 	private FollowRepository followRepository;
+	
+	@Autowired
+	private LikesRepository likesRepository;
 
 	// http://localhost:8060/auth/login
 	@GetMapping("/auth/login")
@@ -78,21 +83,41 @@ public class UserController {
 		/**
 		 * id를 통해서 해당 유저를 검색(이미지+유저정보)
 		 * 1. imageCount
-		 * 2. followerCount
-		 * 3. followingCount
+		 * 2. followCount
+		 * 3. followerCount
 		 * 4. User 오브젝트 (Image(likeCount) 컬렉션)
 		 * 5. followCheck => follow 유무(1:팔로우, 0:언팔로우)
 		 */
 		
 		// 4. 임시(수정요)
 		Optional<User> oToUser = userRepository.findById(id);
-		User user = oToUser.get();
-		model.addAttribute("user", user);
+		User user = oToUser.get();		
 		
+		// 1. imageCount
+		int imageCount = user.getImages().size();
+		model.addAttribute("imageCount", imageCount);
+		
+		// 2. followCount
+		// select count(*) from follow where fromUserId=1
+		int followCount = followRepository.countByFromUserId(user.getId());
+		model.addAttribute("followCount", followCount);
+		
+		// 3. followerCount
+		// select count(*) from follow where toUserId=1
+		int followerCount = followRepository.countByToUserId(user.getId());
+		model.addAttribute("followerCount", followerCount);		
+		
+		// 4. likeCount
+		// select count(*) from like where imageId=27
+		for(Image item:user.getImages()) {
+			int likeCount = likesRepository.countByImageId(item.getId());
+			item.setLikeCount(likeCount);		
+		}
+		
+		model.addAttribute("user", user);
+						
 		// 5. followCheck 유무
 		User principal = userDetail.getUser();
-		log.info(".......... UserController --- profile fromUserId : /user/edit/${user.id }"+ principal.getId()+", toUserId : "+user.getId());
-		
 		int followCheck = followRepository.countByFromUserIdAndToUserId(principal.getId(), id);
 		log.info("--------------------- followCheck : "+followCheck);
 		

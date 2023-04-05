@@ -9,10 +9,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -65,8 +67,9 @@ public class User implements Serializable {
 	
 	// (1) findById() 때만 동작
 	// (2) findByUserInfo() 제외
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
 	@JsonIgnoreProperties({"user", "tags", "likes"})
+	@OrderBy("id desc")
 	@Builder.Default // @Builder 는 초기화 표현을 완전히 무시하므로 초기화 해준다.
 	private List<Image> images = new ArrayList<>();	
 	

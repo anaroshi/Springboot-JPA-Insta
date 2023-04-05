@@ -3,6 +3,7 @@ package com.cos.insta.model;
 import java.sql.Timestamp;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,7 +36,7 @@ public class Likes {
 	@JsonIgnoreProperties({ "images", "password", "name", "website", "bio", "email", "phone", "gender", "createDate", 	"updateDate" }) // JSON 직렬, 역직렬화를 무시
 	private User user; // id, username, profileImage
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "imageId")
 	@JsonIgnoreProperties({ "tags", "user", "likes" })
 	private Image image; // 기본 : image_id

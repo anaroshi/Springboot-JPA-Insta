@@ -77,12 +77,9 @@ $(window).scroll(function() {
 });
   
 async function load_feed_box(){
-	console.log("load_feed_box()");
 	// fetch 로 다운로드
 	let response = await fetch(`/image/feed/scroll?page=${page}`);
 	let images = await response.json();
-	
-	console.log("images : "+images);
 	
 	// 3번 실행 필요
 	images.forEach(function(image){

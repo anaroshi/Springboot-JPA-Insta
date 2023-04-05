@@ -46,7 +46,7 @@ public class Image {
 	
 	private String postImage;	// 포스팅 사진 경로 + 이름
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="userId")	 // Foreign Key로 사용되어질 이름
 	@JsonIgnoreProperties({"password", "images"})
 	private User user;// DB는 오브젝트를 저장할 수 없다. FK, 자바는 오브젝트를 저장할 수 있다.
