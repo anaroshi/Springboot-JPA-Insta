@@ -126,16 +126,42 @@ public class UserController {
 		return "user/profile";
 	}
 	
-	// http://localhost:8060/user/edit/3
-	@GetMapping("/user/edit/{id}")
-	public String profile(@PathVariable int id, Model model) {
+	// http://localhost:8060/user/edit
+	@GetMapping("/user/edit")
+	public String userProfileEdit(@AuthenticationPrincipal MyUserDetail userDetail, Model model) {
 		
-		User user = userRepository.findById(id).get();
+		Optional<User> oUser = userRepository.findById(userDetail.getUser().getId());
+		User user = oUser.get();
+		
 		model.addAttribute("user", user);
 		
 		return "user/profile_edit";
 	}
 	
+	@PostMapping("/user/editProc")
+	public String userProfileEditProc(User requestUser, @AuthenticationPrincipal MyUserDetail userDetail) {
+		
+		// 영속화		
+		Optional<User> oUser = userRepository.findById(userDetail.getUser().getId());
+		User user = oUser.get();
+		
+		// 값 변경
+		user.setName(requestUser.getName());
+		user.setUsername(requestUser.getUsername());
+		user.setWebsite(requestUser.getWebsite());
+		user.setBio(requestUser.getBio());
+		user.setEmail(requestUser.getEmail());
+		user.setPhone(requestUser.getPhone());
+		user.setGender(requestUser.getGender());
+		
+		// 다시 영속화 및 flush
+		userRepository.save(user);
+		
+		return "redirect:/user/"+userDetail.getUser().getId();
+	}
+	
+	
+	// 프로파일 업로드
 	@PostMapping("/user/profileUpload")
 	public String userProfileUpload (
 		@RequestParam("profileImage") MultipartFile file,
@@ -143,14 +169,21 @@ public class UserController {
 	) throws IOException {
 		User principal = userDetail.getUser();
 		
+		// 파일 처리
 		UUID uuid = UUID.randomUUID();
 		String uuidFilename = uuid + "_" + file.getOriginalFilename();
 		Path filePath = Paths.get(fileRealPath + uuidFilename);
 		Files.write(filePath, file.getBytes());
 		
-		principal.setProfileImage(uuidFilename);
+		// 영속화
+		Optional<User> oUser = userRepository.findById(principal.getId());
+		User user = oUser.get();
 		
-		userRepository.save(principal);
+		// 값 변경
+		user.setProfileImage(uuidFilename);
+		
+		// 다시 영속화 및 저장
+		userRepository.save(user);
 		
 		return "redirect:/user/"+principal.getId();
 	}

@@ -26,38 +26,34 @@
         <h1 class="edit-profile__username">${user.username }</h1>
       </header>
 
-      <form class="edit-profile__form">
+      <form class="edit-profile__form" action="/user/editProc" method="POST">
         <div class="edit-profile__row">
           <label class="edit-profile__label" for="name">Name</label>
-          <input id="name" type="text" value="${user.name }">
+          <input id="name" name="name" type="text" value="${user.name }">
         </div>
         <div class="edit-profile__row">
           <label class="edit-profile__label" for="username">Username</label>
-          <input id="username" type="text" value="${user.username }">
+          <input id="username" name="username" type="text" value="${user.username }">
         </div>
         <div class="edit-profile__row">
           <label class="edit-profile__label" for="website">Website</label>
-          <input id="website" type="url" value="${user.website }">
+          <input id="website" name="website" type="url" value="${user.website }">
         </div>
         <div class="edit-profile__row">
           <label class="edit-profile__label" for="bio">Bio</label>
-          <textarea id="bio">${user.bio }</textarea>
+          <textarea id="bio" name="bio">${user.bio }</textarea>
         </div>
         <div class="edit-profile__row">
           <label class="edit-profile__label" for="email">Email</label>
-          <input id="email" type="email" value="${user.email }">
+          <input id="email" name="email" type="email" value="${user.email }">
         </div>
         <div class="edit-profile__row">
           <label class="edit-profile__label" for="phone-number">Phone Number</label>
-          <input id="phone-number" type="text" value="${user.phone }">
+          <input id="phone" name="phone" type="text" value="${user.phone }">
         </div>
         <div class="edit-profile__row">
           <label class="edit-profile__label" for="gender">Gender</label>
-          <select  id="gender">
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="cant-remember" selected>Can't remember</option>
-          </select>
+          <input id="gender" name="gender" type="text" value="${user.gender }">
         </div>
         <div class="edit-profile__row">
           <span></span>

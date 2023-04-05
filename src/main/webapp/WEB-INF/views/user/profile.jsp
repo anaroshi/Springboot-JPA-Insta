@@ -50,7 +50,7 @@
 		  	  <a href="/image/upload">
 		  	  	<button class="profile_follow_btn">사진 등록</button>
 		  	  </a>	
-	          <a href="/user/edit/${principal.user.id }">
+	          <a href="/user/edit">
 	            <button class="profile_edit_btn">회원 수정</button>
 	          </a>  <i class="fa fa-cog fa-lg"></i>
 		</c:if>
