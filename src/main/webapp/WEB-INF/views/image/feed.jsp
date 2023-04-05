@@ -33,7 +33,17 @@
       <div class="photo__info">
           <div class="photo__actions">
             <span class="photo__action">
-              <i class="fa fa-heart-o heart"></i>
+            
+            	<!-- 좋아요(하트) 이미지 -->
+            	<c:choose>
+            		<c:when test="${image.heart eq true }">
+            			<i onclick="onFeedLoad(${image.id})" id="${image.id}" class="fa fa-heart heart heart-clicked"></i>
+            		</c:when>
+            		<c:otherwise>
+            			<i onclick="onFeedLoad(${image.id})" id="${image.id}" class="fa fa-heart-o heart"></i>
+            		</c:otherwise>
+            	</c:choose>              
+              
             </span>
             <span class="photo__action">
               <i class="fa fa-comment-o"></i>
@@ -71,6 +81,7 @@
 
   <%@ include file="../include/footer.jsp" %>
   <script src="/js/feed.js"></script>
+  <script src="/js/like.js"></script>
       
 </body>
 </html>
