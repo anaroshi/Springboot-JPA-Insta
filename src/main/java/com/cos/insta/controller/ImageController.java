@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.Future;
 
@@ -21,14 +22,18 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cos.insta.model.Image;
+import com.cos.insta.model.Likes;
 import com.cos.insta.model.Tag;
 import com.cos.insta.model.User;
 import com.cos.insta.repository.ImageRepository;
+import com.cos.insta.repository.LikesRepository;
 import com.cos.insta.repository.TagRepository;
 
 import com.cos.insta.service.MyUserDetail;
@@ -48,6 +53,36 @@ public class ImageController {
 	
 	@Autowired
 	private TagRepository tagRepository;
+	
+	@Autowired
+	private LikesRepository likesRepository;
+	
+	//  http://localhost:8060/image/like/$%7BimageId%7D 
+	@PostMapping("/image/like/{id}")
+	public @ResponseBody String imageLike(
+			@PathVariable int id,
+			@AuthenticationPrincipal MyUserDetail userDetail
+	) {
+		log.info("----------------------imageLike : "+id);
+		Likes oldLike = likesRepository.findByUserIdAndImageId(userDetail.getUser().getId(), id);
+		Optional<Image> oImage = imageRepository.findById(id);
+		Image image = oImage.get();
+
+		try {
+			if(oldLike==null) { // 좋아요 안한 상태(추가)
+				Likes newLike = Likes.builder().image(image).user(userDetail.getUser()).build();
+				likesRepository.save(newLike);
+			} else { // 좋아요 한 상태(삭제)
+				likesRepository.delete(oldLike);
+			}
+			return "ok";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "fail";
+	}
+	
 
 	// http://localhost:8060/image/feed
 	@GetMapping({"/", "/image/feed"})
@@ -61,9 +96,33 @@ public class ImageController {
 		// 1. 내가 follow한 친구들의 사진
 		Page<Image> pageImages = imageRepository.findImage(userDetail.getUser().getId(), pageable);
 		List<Image> images = pageImages.getContent();
+		for(Image image:images) {
+			Likes like = likesRepository.findByUserIdAndImageId(userDetail.getUser().getId(), image.getId());
+			if(like != null) {
+				image.setHeart(true);
+			}
+		}
 		model.addAttribute("images", images);
 		
 		return "image/feed";
+	}	
+	
+	// http://localhost:8060/image/feed/scroll?page=1..2..3..4
+	@GetMapping("image/feed/scroll")
+	public @ResponseBody List<Image> imageFeedScroll(@AuthenticationPrincipal MyUserDetail userDetail,
+			@PageableDefault(size = 3, sort = "id", direction = Direction.DESC) Pageable pageable
+	){
+		Page<Image> pageImages = imageRepository.findImage(userDetail.getUser().getId(), pageable);
+		List<Image> images = pageImages.getContent();
+		
+		for(Image image:images) {
+			Likes like = likesRepository.findByUserIdAndImageId(userDetail.getUser().getId(), image.getId());
+			if(like != null) {
+				image.setHeart(true);
+			}
+		}		
+		
+		return images;
 	}
 	
 	// http://localhost:8060/image/upload
@@ -133,11 +192,19 @@ public class ImageController {
 			t.setImage(image);
 			tagRepository.save(t);
 			image.getTags().add(t);
-		}
+		}		 
 		
 		// log.info("image tags"+image.getTags());
 		
 		return "redirect:/";
+	}
+	
+	@GetMapping("image/explore/{id}")
+	public String explore(@PathVariable int id) {
+		log.info("...............explore");
+//		User user = userRepository.findById(id).get();
+//		model.addAttribute("user", user);
+		return "/image/explore";
 	}
 
 }

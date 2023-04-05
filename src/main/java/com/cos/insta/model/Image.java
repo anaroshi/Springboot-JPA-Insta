@@ -65,6 +65,9 @@ public class Image {
 	@Transient 	// DB에 영향을 미치지 않는다.
 	private int likeCount;
 	
+	@Transient
+	private boolean heart;
+	
 	@CreationTimestamp
 	private Timestamp createDate;
 	
