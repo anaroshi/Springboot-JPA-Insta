@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -44,6 +45,9 @@ public class OAuth2Controller {
 	
 	@Autowired
 	private MyUserDetailsService myUserDetailsService;
+		
+	@Autowired
+	private BCryptPasswordEncoder encoder;
 	
 	@GetMapping("/auth/kakao/login")
 	public String kakaoLogin() {
@@ -67,9 +71,9 @@ public class OAuth2Controller {
 		user.setProvider("kakao");
 		user.setProviderId(providerId);
 		
-		// name & password는 필수 입력 항목이어서 값을 넣어줌
+		// name & password는 필수 입력 항목이어서 값을 넣어줌		
 		user.setName(user.getUsername());
-		user.setPassword(cosKey);
+		user.setPassword(encoder.encode(cosKey)); // 비밀번호 해쉬 처리
 		userRepository.save(user);
 		
 		UserDetails userDetail = myUserDetailsService.loadUserByUsername(user.getUsername());

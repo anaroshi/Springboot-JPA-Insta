@@ -71,6 +71,12 @@
   border-radius: 3px;
 }
 
+.kakao_login {	
+	height: 32px;
+	width: 80px;
+	 margin-bottom: 14px;
+}
+
 .login__form input:focus {
   outline: none;
   border-color: #999;
