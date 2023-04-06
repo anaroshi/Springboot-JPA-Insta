@@ -36,7 +36,7 @@ public class Likes {
 	@JsonIgnoreProperties({ "images", "password", "name", "website", "bio", "email", "phone", "gender", "createDate", 	"updateDate" }) // JSON 직렬, 역직렬화를 무시
 	private User user; // id, username, profileImage
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "imageId")
 	@JsonIgnoreProperties({ "tags", "user", "likes" })
 	private Image image; // 기본 : image_id
@@ -47,6 +47,4 @@ public class Likes {
 	@CreationTimestamp
 	private Timestamp updateDate;
 
-//	Error executing DDL "create table like (id integer not null auto_increment, createDate datetime(6), updateDate datetime(6), imageId integer, userId integer, primary key (id)) engine=InnoDB" via JDBC Statement
-	
 }
