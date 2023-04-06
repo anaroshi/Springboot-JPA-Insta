@@ -64,6 +64,11 @@
   margin-bottom: 10px;
 }
 
+.photo__info .photo__likes {
+  font-weight: 600;
+  padding-bottom: 15px;
+}
+
 .photo__actions .photo__action {
   margin-right: 15px;
   display: block;

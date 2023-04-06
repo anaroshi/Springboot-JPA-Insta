@@ -1,10 +1,16 @@
 /**
  *  좋아요 like heart
+ *  카운트
  */
 async function onFeedLoad(imageId){
 	let msg = await heart_click(imageId);
-	if(msg==="ok") {
-		$("#"+imageId).toggleClass("heart-clicked fa-heart fa-heart-o");		
+	let likeCount = $("#photo_likes_count_"+imageId).text();
+	if(msg==="like") {
+		$("#photo_likes_count_"+imageId).text(Number(likeCount)+1);
+		$("#"+imageId).toggleClass("heart-clicked fa-heart fa-heart-o");
+	} else if(msg==="unLike") {
+		$("#photo_likes_count_"+imageId).text(Number(likeCount)-1);
+		$("#"+imageId).toggleClass("heart-clicked fa-heart fa-heart-o");
 	} else {
 		alert(msg);
 	}

@@ -57,6 +57,7 @@ public class ImageController {
 	@Autowired
 	private LikesRepository likesRepository;
 	
+	// 좋아요
 	//  http://localhost:8060/image/like/$%7BimageId%7D 
 	@PostMapping("/image/like/{id}")
 	public @ResponseBody String imageLike(
@@ -69,13 +70,14 @@ public class ImageController {
 		Image image = oImage.get();
 
 		try {
-			if(oldLike==null) { // 좋아요 안한 상태(추가)
+			if(oldLike==null) { // '좋아요' 안한 상태(추가)
 				Likes newLike = Likes.builder().image(image).user(userDetail.getUser()).build();
 				likesRepository.save(newLike);
-			} else { // 좋아요 한 상태(삭제)
+				return "like";
+			} else { // '좋아요' 한 상태(삭제)
 				likesRepository.delete(oldLike);
-			}
-			return "ok";
+				return "unLike";
+			}			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
