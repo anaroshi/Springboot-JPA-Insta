@@ -75,7 +75,7 @@
     	<!-- 유저가 업로드한 Feed 사진 -->
 		<c:forEach items="${user.images}" var="image">	
 	        <div class="profile__photo">
-	          <a href="image-detail.html">
+	          <a href="/image/detail/${image.id}">
 	            <img src="/upload/${image.postImage}">
 	            <div class="profile__photo-overlay">
 	              <span class="profile__photo-stat"><i class="fa fa-heart"></i>${image.likeCount}</span>

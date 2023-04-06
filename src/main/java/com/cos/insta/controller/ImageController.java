@@ -216,5 +216,16 @@ public class ImageController {
 		model.addAttribute("images", images);
 		return "image/explore";
 	}
+	
+	@GetMapping("image/detail/{id}")
+	public String imageDetail(Model model, @PathVariable int id) {
+		log.info("...............imageDetail id : "+id);
+		
+		Optional<Image> oImage = imageRepository.findById(id);
+		Image image = oImage.get();
+		
+		model.addAttribute("image", image);
+		return "image/image_detail";
+	}
 
 }
