@@ -58,7 +58,7 @@ public class ImageController {
 	private LikesRepository likesRepository;
 	
 	// 좋아요
-	//  http://localhost:8060/image/like/$%7BimageId%7D 
+	//  http://localhost:8060/image/like/${imageId} 
 	@PostMapping("/image/like/{id}")
 	public @ResponseBody String imageLike(
 			@PathVariable int id,
